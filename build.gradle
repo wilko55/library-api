@@ -1,0 +1,68 @@
+apply plugin: 'java'
+apply plugin: 'gradle-one-jar'
+apply plugin: 'application'
+apply plugin: 'idea'
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+// UTF-8 should be standard by now. So use it!
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+// The main class of the application
+mainClassName = 'com.bookshelf.App'
+
+// Add Gradle OneJar Plugin, see https://github.com/rholder/gradle-one-jar
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.github.rholder:gradle-one-jar:1.0.3'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+project.ext {
+    dropwizardVersion = '0.8.2'
+}
+
+dependencies {
+    compile(
+            "io.dropwizard:dropwizard-core:$dropwizardVersion",
+            "io.dropwizard:dropwizard-hibernate:$dropwizardVersion",
+            "io.dropwizard:dropwizard-migrations:$dropwizardVersion",
+            'mysql:mysql-connector-java:5.1.6',
+            'org.glassfish.jersey.ext:jersey-declarative-linking:2.21',
+            'io.federecio:dropwizard-swagger:0.7.0',
+            'org.projectlombok:lombok:1.16.6'
+    )
+
+    testCompile(
+            "io.dropwizard:dropwizard-testing:$dropwizardVersion",
+            'junit:junit:4.11',
+            'org.mockito:mockito-core:1.+'
+    )
+}
+
+
+// Configure the oneJar task
+task oneJar(type: OneJar) {
+    mainClass = mainClassName
+}
+
+// Configure the run task to start the Dropwizard service
+run {
+    args 'server', 'configuration.yml'
+}
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
+
+artifacts {
+    oneJar
+}
