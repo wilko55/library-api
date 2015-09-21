@@ -5,7 +5,6 @@ Configure db settings in configuration.yml
 
 Currently using a v basic, one table db - something like:
 
-'''
 DROP TABLE IF EXISTS `Books`;
 
 CREATE TABLE `Books` (
@@ -25,11 +24,9 @@ VALUES
 
 /*!40000 ALTER TABLE `Books` ENABLE KEYS */;
 UNLOCK TABLES;
-'''
 
-'''
-Run:
+
+#Run:
 - ./gradlew
 - ./gradlew run
-'''
 
