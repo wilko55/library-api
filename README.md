@@ -26,7 +26,7 @@ VALUES
 UNLOCK TABLES;
 
 
-#Run:
-- ./gradlew
+##Run:
+- ./gradlew build
 - ./gradlew run
 
