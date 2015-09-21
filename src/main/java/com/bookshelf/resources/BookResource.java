@@ -14,8 +14,9 @@ package com.bookshelf.resources;
         import javax.ws.rs.Path;
         import javax.ws.rs.PathParam;
         import javax.ws.rs.Produces;
+        import java.util.List;
 
-@Path("/books/{bookId}")
+@Path("/books")
 @Produces(MediaType.APPLICATION_JSON)
 public class BookResource {
 
@@ -25,6 +26,7 @@ public class BookResource {
         this.booksDAO = booksDAO;
     }
 
+    @Path("/{bookId}")
     @GET
     @UnitOfWork
     public Book getBook(@PathParam("bookId") LongParam bookId) {
@@ -37,5 +39,11 @@ public class BookResource {
             throw new NotFoundException("No such book.");
         }
         return book.get();
+    }
+
+    @GET
+    @UnitOfWork
+    public List<Book> findAll() {
+        return booksDAO.findAll();
     }
 }
